@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Patek Philippe — Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --black: #080909;
+    --surface: #101110;
+    --gold: #c5a46d;
+    --ivory: #eae5da;
+    --muted: #92918a;
+    --line: rgba(197,164,109,.23);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; background: var(--black); }
+  body {
+    margin: 0;
+    background: var(--black);
+    color: var(--ivory);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  ::selection { background: var(--gold); color: var(--black); }
+
+  .scroll-progress {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--gold);
+    transform-origin: left;
+  }
+
+  .navbar {
+    height: 88px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    position: absolute;
+    z-index: 20;
+    width: 100%;
+    top: 0;
+  }
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 3px;
+    font-size: 17px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .brand span {
+    display: block;
+    font: 9px 'DM Sans', sans-serif;
+    letter-spacing: 5px;
+    margin-top: 6px;
+    color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 35px; }
+  .nav-links a, .nav-contact {
+    font-size: 9px;
+    letter-spacing: 1.7px;
+    color: #c5c1b7;
+    transition: color .3s;
+  }
+  .nav-links a:hover, .nav-contact:hover { color: var(--gold); }
+  .nav-contact span { color: var(--gold); margin-left: 8px; }
+  .menu-toggle { display: none; }
+
+  .hero {
+    min-height: 780px;
+    height: 100svh;
+    max-height: 1100px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 130px 10% 100px;
+    background:
+      radial-gradient(ellipse at 72% 50%, #25231d 0%, #111210 38%, #080909 75%);
+  }
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    opacity: .1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    right: 8%;
+    top: 12%;
+    background: radial-gradient(circle, rgba(197,164,109,.13), transparent 70%);
+    filter: blur(30px);
+    animation: glow 7s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    from { transform: scale(.85); opacity: .5; }
+    to { transform: scale(1.15); opacity: 1; }
+  }
+  .hero-copy { position: relative; z-index: 4; width: 52%; }
+  .eyebrow {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+  }
+  .hero h1 {
+    font-size: clamp(64px, 8vw, 112px);
+    line-height: .91;
+    letter-spacing: -3px;
+    margin: 35px 0 25px;
+  }
+  h1 i, h2 i { color: var(--gold); font-weight: 400; }
+  .hero-description {
+    max-width: 350px;
+    color: #aaa69d;
+    line-height: 1.9;
+    font-size: 13px;
+  }
+  .gold-link {
+    display: inline-flex;
+    gap: 32px;
+    align-items: center;
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 13px;
+    margin-top: 30px;
+    transition: gap .3s;
+  }
+  .gold-link:hover { gap: 45px; }
+  .hero-watch {
+    position: absolute;
+    width: min(45vw, 570px);
+    height: 650px;
+    right: 7%;
+    top: 50%;
+    transform: translateY(-48%);
+    perspective: 1200px;
+    display: grid;
+    place-items: center;
+    z-index: 3;
+    cursor: grab;
+  }
+  .watch-orbit {
+    width: 300px;
+    height: 510px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .2s ease-out;
+    animation: watchFloat 6s ease-in-out infinite;
+  }
+  @keyframes watchFloat {
+    0%,100% { translate: 0 0; }
+    50% { translate: 0 -13px; }
+  }
+  .watch-shadow {
+    position: absolute;
+    width: 280px;
+    height: 480px;
+    left: 10px;
+    top: 10px;
+    background: rgba(0,0,0,.7);
+    filter: blur(30px);
+    transform: translateZ(-35px);
+  }
+  .watch-strap {
+    position: absolute;
+    left: 88px;
+    width: 125px;
+    height: 500px;
+    top: 5px;
+    border-radius: 35px;
+    background: linear-gradient(90deg,#5a452d,#c5a46d 22%,#695031 50%,#d4b47e 80%,#443421);
+    box-shadow: inset 5px 0 10px #322517, inset -5px 0 10px #302317;
+    transform: translateZ(-5px);
+  }
+  .strap-lines {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: .3;
+    background: repeating-linear-gradient(0deg, transparent 0 12px, rgba(0,0,0,.6) 13px, transparent 14px);
+  }
+  .watch-case {
+    position: absolute;
+    width: 290px;
+    height: 290px;
+    left: 5px;
+    top: 108px;
+    border-radius: 36%;
+    background: linear-gradient(140deg,#f0d69e,#6f512c 20%,#d5b77d 42%,#75552d 65%,#f1d9a3 90%);
+    padding: 15px;
+    box-shadow: 0 20px 50px #000, inset 0 0 9px #fff1c9;
+    transform: translateZ(25px);
+  }
+  .watch-bezel {
+    height: 100%;
+    width: 100%;
+    border-radius: 33%;
+    background: linear-gradient(145deg,#24251e,#080909);
+    padding: 12px;
+    box-shadow: inset 0 0 12px #000;
+  }
+  .watch-dial {
+    width: 100%;
+    height: 100%;
+    border-radius: 30%;
+    background: radial-gradient(circle at 35% 30%,#34495b,#172a39 60%,#091521);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #a88b58;
+    box-shadow: inset 0 0 22px #000;
+  }
+  .dial-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: .35;
+    background: repeating-linear-gradient(0deg,transparent 0 7px,rgba(255,255,255,.13) 8px,transparent 9px);
+  }
+  .dial-brand {
+    position: absolute;
+    top: 24%;
+    width: 100%;
+    text-align: center;
+    font-family: 'Cormorant Garamond',serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #e3cfaa;
+  }
+  .dial-geneva {
+    position: absolute;
+    top: 31%;
+    width: 100%;
+    text-align: center;
+    font-size: 6px;
+    letter-spacing: 3px;
+    color: #d8c5a2;
+  }
+  .dial-center {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .hand {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform-origin: bottom;
+    border-radius: 5px;
+  }
+  .hour { width: 4px; height: 56px; background: #e9d6ad; transform: rotate(45deg); }
+  .minute { width: 3px; height: 83px; background: #fff0c8; transform: rotate(150deg); }
+  .second { width: 1px; height: 94px; background: #d39d4e; transform: rotate(220deg); }
+  .pin { position: absolute; top: 49%; left: 49%; width: 7px; height: 7px; background: #e2bd78; border-radius: 50%; }
+  .dial-indexes { position: absolute; inset: 0; }
+  .dial-indexes span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+  }
+  .dial-indexes i { width: 2px; height: 7px; background: #e3c994; }
+  .dial-date {
+    position: absolute;
+    right: 22%;
+    top: 48%;
+    color: #f2e3c8;
+    background: #111c25;
+    padding: 4px;
+    font-size: 9px;
+  }
+  .watch-crown {
+    position: absolute;
+    right: -17px;
+    top: 46%;
+    width: 24px;
+    height: 38px;
+    background: linear-gradient(90deg,#6d502b,#e3c28a,#76552d);
+    border-radius: 4px;
+  }
+  .watch-reflection {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transform: translateZ(45px);
+    background: linear-gradient(120deg,transparent 20%,rgba(255,255,255,.2) 45%,transparent 55%);
+    mix-blend-mode: screen;
+    animation: reflection 5s ease-in-out infinite;
+  }
+  @keyframes reflection {
+    0%,100% { opacity: .1; transform: translateX(-20px) translateZ(45px); }
+    50% { opacity: .7; transform: translateX(20px) translateZ(45px); }
+  }
+  .hero-bottom {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 35px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #817e75;
+  }
+  .hero-bottom a { color: var(--gold); }
+  .hero-side-note {
+    position: absolute;
+    right: 3%;
+    top: 43%;
+    writing-mode: vertical-rl;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #80765f;
+  }
+
+  .section-pad { padding: 130px 10%; }
+  .section-label {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+  .section-label span:first-child { color: var(--gold); }
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10%;
+    padding: 100px 0 70px;
+    align-items: end;
+  }
+  h2 {
+    font-size: clamp(55px,7vw,88px);
+    line-height: .95;
+    letter-spacing: -2px;
+    margin: 25px 0;
+  }
+  .large-copy { font-family: 'Cormorant Garamond',serif; font-size: 25px; line-height: 1.5; }
+  .muted { color: var(--muted); font-size: 12px; line-height: 2; }
+  .text-link {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+    margin-top: 20px;
+  }
+  .philosophy-image { height: 450px; position: relative; overflow: hidden; }
+  .philosophy-image img { filter: brightness(.65); transition: transform 1s; }
+  .philosophy-image:hover img { transform: scale(1.04); }
+  .philosophy-image span, .craft-image span, .rarity-image span {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: white;
+  }
+
+  .interactive { background: #0e100f; overflow: hidden; }
+  .interactive-heading { text-align: center; padding: 75px 0 20px; }
+  .interactive-heading h2 { margin: 20px 0; }
+  .exploded-stage { min-height: 600px; position: relative; display: grid; place-items: center; perspective: 1200px; }
+  .exploded-watch {
+    position: relative;
+    width: 330px;
+    height: 330px;
+    transform-style: preserve-3d;
+    transform: rotateX(55deg) rotateZ(-25deg);
+    transition: transform 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .exploded-watch.is-exploded { transform: rotateX(55deg) rotateZ(-25deg) scale(1.05); }
+  .exploded-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 35%;
+    display: grid;
+    place-items: center;
+    transition: transform 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .exploded-layer span {
+    position: absolute;
+    right: -160px;
+    top: 50%;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .layer-back {
+    background: linear-gradient(135deg,#b99a61,#47351e,#d4b779);
+    box-shadow: 0 15px 25px #000;
+    transform: translateZ(-30px);
+  }
+  .layer-movement {
+    background: radial-gradient(circle,#a68a58,#28231a 68%,#080909);
+    border: 12px solid #b99a61;
+    transform: translateZ(0);
+  }
+  .layer-dial {
+    background: repeating-linear-gradient(0deg,#24384a 0 5px,#30485c 6px 7px);
+    border: 9px solid #c2a36b;
+    transform: translateZ(30px);
+  }
+  .layer-glass {
+    border: 3px solid rgba(255,255,255,.5);
+    background: rgba(255,255,255,.06);
+    transform: translateZ(55px);
+    box-shadow: inset 0 0 30px rgba(255,255,255,.15);
+  }
+  .gear {
+    position: absolute;
+    border: 5px dotted #e1c58d;
+    border-radius: 50%;
+    animation: gearSpin 15s linear infinite;
+  }
+  .gear-one { width: 100px; height: 100px; }
+  .gear-two { width: 65px; height: 65px; left: 35px; top: 50px; animation-direction: reverse; }
+  .gear-three { width: 45px; height: 45px; right: 40px; bottom: 50px; }
+  @keyframes gearSpin { to { rotate: 360deg; } }
+  .is-exploded .layer-back { transform: translateZ(-130px); }
+  .is-exploded .layer-movement { transform: translateZ(-30px); }
+  .is-exploded .layer-dial { transform: translateZ(100px); }
+  .is-exploded .layer-glass { transform: translateZ(210px); }
+  .exploded-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+  .outline-button {
+    color: var(--gold);
+    border: 1px solid var(--line);
+    background: transparent;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    transition: background .3s;
+  }
+  .outline-button:hover { background: rgba(197,164,109,.1); }
+  .outline-button span { margin-left: 20px; }
+
+  .heritage { background: #090a09; }
+  .heritage-top { max-width: 650px; }
+  .timeline { margin-top: 90px; border-top: 1px solid var(--line); }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 60px 140px 1fr 12px;
+    gap: 20px;
+    align-items: center;
+    padding: 35px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .timeline-number { font-size: 9px; color: var(--gold); }
+  .timeline-year { font-family: 'Cormorant Garamond',serif; font-size: 35px; }
+  .timeline-item h3 { font-size: 25px; margin: 0 0 8px; }
+  .timeline-item p { font-size: 11px; color: var(--muted); line-height: 1.7; margin: 0; max-width: 500px; }
+  .timeline-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+
+  .values { background: #111210; }
+  .values-intro { padding: 70px 0 45px; }
+  .values-grid { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .value-card {
+    min-height: 200px;
+    padding: 25px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background .4s;
+  }
+  .value-card:hover { background: rgba(197,164,109,.07); }
+  .value-card > span { font-size: 9px; color: var(--gold); }
+  .value-card h3 { font-size: 27px; margin: 35px 0 8px; }
+  .value-card p { font-size: 10px; line-height: 1.8; color: var(--muted); }
+  .value-line { width: 22px; height: 1px; background: var(--gold); margin-top: 22px; transition: width .4s; }
+  .value-card:hover .value-line { width: 60px; }
+
+  .collections { background: #090a09; }
+  .collections-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 70px 0 50px;
+  }
+  .collections-heading h2 { font-size: clamp(45px,6vw,75px); }
+  .collections-heading > p { max-width: 240px; }
+  .collection-display { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 550px; background: #111210; }
+  .collection-image { position: relative; overflow: hidden; min-height: 500px; }
+  .collection-image img { transition: transform 1s; animation: imageIn .7s ease; }
+  .collection-image:hover img { transform: scale(1.04); }
+  @keyframes imageIn { from { opacity: .3; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
+  .image-index { position: absolute; bottom: 25px; left: 25px; font-size: 9px; letter-spacing: 2px; }
+  .collection-info { padding: 65px 55px; display: flex; flex-direction: column; align-items: flex-start; }
+  .collection-info h3 { font-size: 66px; margin: 25px 0 0; }
+  .collection-ref { color: var(--gold); font-size: 9px; letter-spacing: 2px; }
+  .collection-info > .muted { margin-top: 20px; }
+  .collection-switcher { margin-top: auto; width: 100%; padding-top: 30px; }
+  .collection-switcher button {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    text-align: left;
+    padding: 15px 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: #77766f;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond',serif;
+    font-size: 21px;
+    transition: color .3s;
+  }
+  .collection-switcher button span { font: 9px 'DM Sans',sans-serif; }
+  .collection-switcher button.active { color: var(--gold); }
+
+  .craftsmanship { display: grid; grid-template-columns: 1fr 1fr; gap: 12%; align-items: center; background: #111210; }
+  .craft-image { height: 600px; position: relative; overflow: hidden; }
+  .craft-image img { filter: brightness(.7); transition: transform 1s; }
+  .craft-image:hover img { transform: scale(1.05); }
+  .craft-copy h2 { font-size: clamp(55px,7vw,85px); }
+  .craft-copy .large-copy { margin-top: 40px; }
+
+  .geneva { height: 650px; position: relative; overflow: hidden; }
+  .geneva > img { position: absolute; inset: 0; filter: brightness(.3); }
+  .geneva-overlay { position: absolute; inset: 0; background: linear-gradient(90deg,#080909 0%,rgba(8,9,9,.65) 55%,transparent 100%); }
+  .geneva-copy { position: absolute; left: 10%; top: 50%; transform: translateY(-50%); max-width: 470px; }
+  .geneva-copy h2 { font-size: 85px; }
+  .geneva-copy p:last-child { font-size: 12px; line-height: 2; color: #aaa69d; max-width: 350px; }
+  .geneva-coordinate { position: absolute; bottom: 35px; right: 6%; font-size: 9px; letter-spacing: 2px; color: var(--gold); }
+
+  .rarity { display: grid; grid-template-columns: .9fr 1.1fr; gap: 12%; align-items: center; }
+  .rarity-image { height: 500px; position: relative; overflow: hidden; }
+  .rarity-image img { filter: brightness(.75); transition: transform 1s; }
+  .rarity-image:hover img { transform: scale(1.04); }
+
+  .footer { background: #111210; padding: 100px 10% 35px; }
+  .footer-main { text-align: center; padding-bottom: 120px; }
+  .footer-main h2 { font-size: clamp(65px,9vw,110px); }
+  .footer-bottom {
+    border-top: 1px solid var(--line);
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+  .footer-brand { color: var(--ivory); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(5px);
+    transition: opacity .9s ease, transform .9s ease, filter .9s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  @media (max-width: 900px) {
+    .hero { min-height: 900px; align-items: flex-start; padding-top: 180px; }
+    .hero-copy { width: 100%; }
+    .hero h1 { font-size: 75px; }
+    .hero-watch { top: auto; bottom: 35px; right: 10%; width: 80%; height: 450px; transform: none; }
+    .watch-orbit { scale: .75; }
+    .hero-bottom { bottom: 15px; }
+    .hero-side-note { display: none; }
+    .nav-links { gap: 15px; }
+    .nav-links a { font-size: 8px; }
+    .section-pad { padding: 95px 7%; }
+    .values-grid { grid-template-columns: repeat(2,1fr); }
+    .collection-info { padding: 35px; }
+    .collection-info h3 { font-size: 48px; }
+    .craftsmanship, .rarity { gap: 6%; }
+  }
+
+  @media (max-width: 600px) {
+    .navbar { height: 75px; padding: 0 6%; }
+    .brand { font-size: 14px; }
+    .nav-contact { display: none; }
+    .menu-toggle {
+      display: block;
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--gold);
+      padding: 10px 13px;
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 74px;
+      left: 0;
+      width: 100%;
+      padding: 30px;
+      background: #111210;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 10px; }
+    .hero { min-height: 850px; padding: 155px 7% 80px; }
+    .hero h1 { font-size: 62px; }
+    .hero-description { font-size: 11px; max-width: 280px; }
+    .hero-watch { width: 100%; right: 0; bottom: 25px; height: 390px; }
+    .watch-orbit { scale: .66; }
+    .hero-bottom { left: 7%; right: 7%; font-size: 6px; }
+    .hero-bottom span:nth-child(2) { display: none; }
+    .section-pad { padding: 75px 7%; }
+    .section-label { font-size: 7px; gap: 15px; }
+    .section-label span:last-child { text-align: right; }
+    .philosophy-grid { grid-template-columns: 1fr; gap: 15px; padding: 65px 0 35px; }
+    h2 { font-size: 58px; }
+    .large-copy { font-size: 21px; }
+    .philosophy-image { height: 300px; }
+    .interactive-heading { padding-top: 55px; }
+    .exploded-stage { min-height: 490px; }
+    .exploded-watch { scale: .7; }
+    .exploded-layer span { right: -130px; font-size: 7px; }
+    .exploded-caption { gap: 15px; font-size: 7px; }
+    .outline-button { padding: 12px; font-size: 7px; }
+    .timeline-item { grid-template-columns: 25px 70px 1fr 8px; gap: 10px; padding: 25px 0; }
+    .timeline-year { font-size: 26px; }
+    .timeline-item h3 { font-size: 20px; }
+    .timeline-item p { font-size: 9px; }
+    .values-intro { padding: 50px 0 30px; }
+    .values-grid { grid-template-columns: repeat(2,1fr); }
+    .value-card { padding: 16px; min-height: 175px; }
+    .value-card h3 { font-size: 22px; margin-top: 25px; }
+    .value-card p { font-size: 9px; }
+    .collections-heading { display: block; padding: 55px 0 30px; }
+    .collection-display { grid-template-columns: 1fr; }
+    .collection-image { min-height: 340px; height: 340px; }
+    .collection-info { min-height: 400px; padding: 30px 24px; }
+    .collection-info h3 { font-size: 54px; }
+    .craftsmanship, .rarity { grid-template-columns: 1fr; gap: 45px; }
+    .craft-image { height: 350px; }
+    .craft-copy h2 { font-size: 65px; }
+    .geneva { height: 530px; }
+    .geneva-copy { left: 7%; right: 7%; }
+    .geneva-copy h2 { font-size: 65px; }
+    .rarity-image { height: 350px; }
+    .footer { padding: 75px 7% 25px; }
+    .footer-main { padding-bottom: 80px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: .01ms !important;
+    }
+    .reveal { opacity: 1; transform: none; filter: none; }
+  }
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav class="navbar">
+  <a href="#home" class="brand">
+    PATEK PHILIPPE
+    <span>GENEVE</span>
+  </a>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#heritage">HERITAGE</a>
+    <a href="#collections">COLLECTIONS</a>
+    <a href="#craftsmanship">CRAFTSMANSHIP</a>
+    <a href="#values">OUR VALUES</a>
+  </div>
+
+  <a href="#contact" class="nav-contact">CONTACT <span>↗</span></a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">MENU</button>
+</nav>
+
+<!-- 01 HERO -->
+<section class="hero" id="home">
+  <div class="hero-grain"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-copy">
+    <p class="eyebrow reveal">GENEVA · SWITZERLAND · EST. 1839</p>
+    <h1 class="reveal">Generations<br /><i>of excellence.</i></h1>
+    <p class="hero-description reveal">
+      Independent by nature. Exceptional by design.
+      Discover the art of fine watchmaking.
+    </p>
+    <a href="#collections" class="gold-link reveal">EXPLORE OUR COLLECTIONS <span>↗</span></a>
+  </div>
+
+  <div class="hero-watch" id="heroWatch">
+    <div class="watch-orbit" id="watchOrbit">
+      <div class="watch-shadow"></div>
+      <div class="watch-strap"><div class="strap-lines"></div></div>
+      <div class="watch-case">
+        <div class="watch-bezel">
+          <div class="watch-dial">
+            <div class="dial-pattern"></div>
+            <div class="dial-brand">PATEK PHILIPPE</div>
+            <div class="dial-geneva">GENEVE</div>
+            <div class="dial-center">
+              <span class="hand hour"></span>
+              <span class="hand minute"></span>
+              <span class="hand second"></span>
+              <span class="pin"></span>
+            </div>
+            <div class="dial-indexes" id="dialIndexes"></div>
+            <div class="dial-date">28</div>
+          </div>
+        </div>
+        <div class="watch-crown"></div>
+      </div>
+      <div class="watch-reflection"></div>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <span>THE ART OF WATCHMAKING</span>
+    <span>01 / 10</span>
+    <a href="#philosophy">SCROLL TO DISCOVER ↓</a>
+  </div>
+
+  <div class="hero-side-note">A LEGACY IN EVERY SECOND</div>
+</section>
+
+<!-- 02 PHILOSOPHY -->
+<section class="philosophy section-pad" id="philosophy">
+  <div class="section-label reveal">
+    <span>01 / OUR PHILOSOPHY</span>
+    <span>INDEPENDENCE · TRADITION · INNOVATION</span>
+  </div>
+
+  <div class="philosophy-grid">
+    <div class="philosophy-heading reveal">
+      <p class="eyebrow">BEYOND TIME</p>
+      <h2>Time is<br /><i>our legacy.</i></h2>
+    </div>
+    <div class="philosophy-text reveal">
+      <p class="large-copy">
+        Since 1839, Patek Philippe has pursued an independent vision of
+        watchmaking, creating timepieces that connect generations.
+      </p>
+      <p class="muted">
+        Our philosophy is built upon continuity, uncompromising
+        craftsmanship and the belief that true excellence is never
+        achieved by standing still.
+      </p>
+      <a href="#heritage" class="text-link">DISCOVER OUR HISTORY ↗</a>
+    </div>
+  </div>
+  <div class="philosophy-image reveal">
+    <img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?auto=format&fit=crop&w=1600&q=90" alt="Fine watchmaking details" />
+    <span>THE PURSUIT OF PERFECTION</span>
+  </div>
+</section>
+
+<!-- 03 INTERACTIVE WATCH -->
+<section class="interactive section-pad" id="experience">
+  <div class="section-label reveal">
+    <span>02 / THE OBJECT</span>
+    <span>ENGINEERING MEETS ART</span>
+  </div>
+
+  <div class="interactive-heading reveal">
+    <p class="eyebrow">A STUDY IN PRECISION</p>
+    <h2>Every detail.<br /><i>Considered.</i></h2>
+    <p class="muted">Discover the layers behind the art of mechanical watchmaking.</p>
+  </div>
+
+  <div class="exploded-stage">
+    <div class="exploded-watch" id="explodedWatch">
+      <div class="exploded-layer layer-back"><span>01 / CASE</span></div>
+      <div class="exploded-layer layer-movement">
+        <div class="gear gear-one"></div>
+        <div class="gear gear-two"></div>
+        <div class="gear gear-three"></div>
+        <span>02 / MOVEMENT</span>
+      </div>
+      <div class="exploded-layer layer-dial"><span>03 / DIAL</span></div>
+      <div class="exploded-layer layer-glass"><span>04 / SAPPHIRE CRYSTAL</span></div>
+    </div>
+
+    <div class="exploded-caption">
+      <span>MECHANICAL ARCHITECTURE</span>
+      <button class="outline-button" id="explodeBtn">
+        <span id="explodeLabel">EXPLORE THE COMPONENTS</span><span id="explodeArrow">↗</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- 04 HERITAGE -->
+<section class="heritage section-pad" id="heritage">
+  <div class="heritage-top reveal">
+    <p class="eyebrow">03 / A HISTORY OF EXCELLENCE</p>
+    <h2>Since <i>1839.</i></h2>
+    <p class="muted">Nearly two centuries of independent watchmaking in Geneva.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <span class="timeline-number">01</span>
+      <span class="timeline-year">1839</span>
+      <div>
+        <h3>A vision begins</h3>
+        <p>The company is founded in Geneva by Antoine Norbert de Patek and François Czapek.</p>
+      </div>
+      <span class="timeline-dot"></span>
+    </div>
+    <div class="timeline-item reveal">
+      <span class="timeline-number">02</span>
+      <span class="timeline-year">1845</span>
+      <div>
+        <h3>A new mechanism</h3>
+        <p>Jean Adrien Philippe develops his keyless winding and hand-setting system.</p>
+      </div>
+      <span class="timeline-dot"></span>
+    </div>
+    <div class="timeline-item reveal">
+      <span class="timeline-number">03</span>
+      <span class="timeline-year">1932</span>
+      <div>
+        <h3>A family legacy</h3>
+        <p>The Stern family takes stewardship of the manufacture.</p>
+      </div>
+      <span class="timeline-dot"></span>
+    </div>
+    <div class="timeline-item reveal">
+      <span class="timeline-number">04</span>
+      <span class="timeline-year">1976</span>
+      <div>
+        <h3>An icon is born</h3>
+        <p>The Nautilus introduces a new expression of elegant sporting watches.</p>
+      </div>
+      <span class="timeline-dot"></span>
+    </div>
+    <div class="timeline-item reveal">
+      <span class="timeline-number">05</span>
+      <span class="timeline-year">1997</span>
+      <div>
+        <h3>A contemporary spirit</h3>
+        <p>The Aquanaut joins the collection with a distinctive modern character.</p>
+      </div>
+      <span class="timeline-dot"></span>
+    </div>
+  </div>
+</section>
+
+<!-- 05 VALUES -->
+<section class="values section-pad" id="values">
+  <div class="section-label reveal">
+    <span>04 / THE FOUNDATION</span>
+    <span>OUR GUIDING PRINCIPLES</span>
+  </div>
+
+  <div class="values-intro reveal">
+    <p class="eyebrow">MORE THAN A WATCH</p>
+    <h2>Eight values.<br /><i>One philosophy.</i></h2>
+  </div>
+
+  <div class="values-grid">
+    <article class="value-card reveal"><span>01</span><h3>Independence</h3><p>An independent spirit, guided by a clear vision.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>02</span><h3>Tradition</h3><p>A heritage carried forward through generations.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>03</span><h3>Innovation</h3><p>Technical progress shaped by imagination.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>04</span><h3>Quality</h3><p>Exceptional standards in every detail.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>05</span><h3>Rarity</h3><p>Creations produced in limited quantities.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>06</span><h3>Value</h3><p>A legacy that transcends generations.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>07</span><h3>Aesthetics</h3><p>Harmony between form, function and beauty.</p><div class="value-line"></div></article>
+    <article class="value-card reveal"><span>08</span><h3>Service</h3><p>A commitment that continues beyond acquisition.</p><div class="value-line"></div></article>
+  </div>
+</section>
+
+<!-- 06 COLLECTIONS -->
+<section class="collections section-pad" id="collections">
+  <div class="section-label reveal">
+    <span>05 / OUR CREATIONS</span>
+    <span>AN EXPRESSION OF IDENTITY</span>
+  </div>
+
+  <div class="collections-heading reveal">
+    <div>
+      <p class="eyebrow">SIGNATURE COLLECTIONS</p>
+      <h2>Icons of <i>distinction.</i></h2>
+    </div>
+    <p class="muted">Different expressions of the same commitment to excellence.</p>
+  </div>
+
+  <div class="collection-display">
+    <div class="collection-image">
+      <img id="collectionImg" src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1800&q=90" alt="Nautilus" />
+      <span class="image-index" id="collectionIndex">01 / 03</span>
+    </div>
+
+    <div class="collection-info">
+      <span class="eyebrow" id="collectionType">SPORTING ELEGANCE</span>
+      <h3 id="collectionName">Nautilus</h3>
+      <p class="collection-ref" id="collectionRef">THE ICONIC SPORTS WATCH</p>
+      <p class="muted" id="collectionDesc">A distinctive silhouette inspired by the porthole of a ship. An icon of refined sporting elegance.</p>
+      <a href="https://www.patek.com/en/collection" target="_blank" rel="noreferrer" class="text-link">EXPLORE COLLECTION ↗</a>
+
+      <div class="collection-switcher" id="collectionSwitcher"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 CRAFTSMANSHIP -->
+<section class="craftsmanship section-pad" id="craftsmanship">
+  <div class="craft-image reveal">
+    <img src="https://images.unsplash.com/photo-1594534475808-b18fc33b045e?auto=format&fit=crop&w=1400&q=90" alt="Mechanical watch craftsmanship" />
+    <span>THE ART OF FINISHING</span>
+  </div>
+
+  <div class="craft-copy reveal">
+    <p class="eyebrow">06 / THE HUMAN TOUCH</p>
+    <h2>Precision<br />is <i>personal.</i></h2>
+    <p class="large-copy">
+      Behind every exceptional timepiece lies a world of knowledge,
+      patience and extraordinary human skill.
+    </p>
+    <p class="muted">
+      From the smallest component to the final finishing, every stage
+      reflects the manufacture's dedication to quality and fine
+      workmanship.
+    </p>
+    <a href="https://www.patek.com/en/manufacture" target="_blank" rel="noreferrer" class="text-link">EXPLORE THE MANUFACTURE ↗</a>
+  </div>
+</section>
+
+<!-- 08 GENEVA -->
+<section class="geneva">
+  <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=1400&q=90" alt="Luxury watch in dramatic light" />
+  <div class="geneva-overlay"></div>
+  <div class="geneva-copy reveal">
+    <p class="eyebrow">GENEVA · SWITZERLAND</p>
+    <h2>Rooted in<br /><i>Geneva.</i></h2>
+    <p>
+      A home shaped by generations of watchmaking knowledge,
+      independence and uncompromising standards.
+    </p>
+  </div>
+  <span class="geneva-coordinate">46°12' N / 6°09' E</span>
+</section>
+
+<!-- 09 RARITY -->
+<section class="rarity section-pad">
+  <div class="rarity-copy reveal">
+    <p class="eyebrow">07 / BEYOND POSSESSION</p>
+    <h2>Created to<br /><i>be treasured.</i></h2>
+    <p class="large-copy">
+      A Patek Philippe timepiece is more than an object of precision.
+      It is a personal legacy, intended to be appreciated today and
+      passed on tomorrow.
+    </p>
+    <p class="muted">
+      Limited production, lasting craftsmanship and timeless design
+      contribute to the distinctive character of each creation.
+    </p>
+  </div>
+  <div class="rarity-image reveal">
+    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=1400&q=90" alt="Luxury watch close-up" />
+    <span>AN OBJECT OF LASTING VALUE</span>
+  </div>
+</section>
+
+<!-- 10 FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer-main">
+    <p class="eyebrow">THE ART OF INDEPENDENT WATCHMAKING</p>
+    <h2>Begin your<br /><i>own legacy.</i></h2>
+    <a href="https://www.patek.com/en" target="_blank" rel="noreferrer" class="gold-link">DISCOVER PATEK PHILIPPE ↗</a>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="brand footer-brand">
+      PATEK PHILIPPE
+      <span>GENEVE</span>
+    </div>
+    <span>INDEPENDENCE · TRADITION · INNOVATION</span>
+    <span>© 2026 CONCEPT DESIGN</span>
+  </div>
+</footer>
+
+<script>
+  // Dial indexes (12 ticks)
+  var dialIndexes = document.getElementById('dialIndexes');
+  for (var i = 0; i < 12; i++) {
+    var s = document.createElement('span');
+    s.style.transform = 'rotate(' + (i * 30) + 'deg)';
+    s.appendChild(document.createElement('i'));
+    dialIndexes.appendChild(s);
+  }
+
+  // Scroll progress + reveal
+  var progress = document.getElementById('scrollProgress');
+  function handleScroll() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.86) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+
+  // Mobile menu
+  var menuToggle = document.getElementById('menuToggle');
+  var navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', function () {
+    var open = navLinks.classList.toggle('open');
+    menuToggle.textContent = open ? 'CLOSE' : 'MENU';
+  });
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      navLinks.classList.remove('open');
+      menuToggle.textContent = 'MENU';
+    });
+  });
+
+  // Watch tilt
+  var heroWatch = document.getElementById('heroWatch');
+  var watchOrbit = document.getElementById('watchOrbit');
+  heroWatch.addEventListener('mousemove', function (e) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var rect = heroWatch.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+    watchOrbit.style.transform = 'rotateX(' + (y * -22) + 'deg) rotateY(' + (x * 26) + 'deg)';
+  });
+  heroWatch.addEventListener('mouseleave', function () {
+    watchOrbit.style.transform = 'rotateX(0deg) rotateY(0deg)';
+  });
+
+  // Exploded watch
+  var explodedWatch = document.getElementById('explodedWatch');
+  var explodeBtn = document.getElementById('explodeBtn');
+  explodeBtn.addEventListener('click', function () {
+    var exploded = explodedWatch.classList.toggle('is-exploded');
+    document.getElementById('explodeLabel').textContent = exploded ? 'REASSEMBLE OBJECT' : 'EXPLORE THE COMPONENTS';
+    document.getElementById('explodeArrow').textContent = exploded ? '↙' : '↗';
+  });
+
+  // Collections
+  var collections = [
+    {
+      name: 'Nautilus',
+      type: 'SPORTING ELEGANCE',
+      ref: 'THE ICONIC SPORTS WATCH',
+      image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1800&q=90',
+      description: 'A distinctive silhouette inspired by the porthole of a ship. An icon of refined sporting elegance.'
+    },
+    {
+      name: 'Calatrava',
+      type: 'CLASSIC ELEGANCE',
+      ref: 'THE ESSENCE OF TIMELESS DESIGN',
+      image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=1400&q=90',
+      description: 'Pure lines, balanced proportions and understated sophistication define this timeless collection.'
+    },
+    {
+      name: 'Aquanaut',
+      type: 'CONTEMPORARY SPIRIT',
+      ref: 'A MODERN EXPRESSION',
+      image: 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=1400&q=90',
+      description: 'A contemporary interpretation of casual elegance, combining distinctive design and technical refinement.'
+    }
+  ];
+
+  var switcher = document.getElementById('collectionSwitcher');
+  collections.forEach(function (item, i) {
+    var btn = document.createElement('button');
+    btn.innerHTML = '<span>0' + (i + 1) + '</span>' + item.name;
+    if (i === 0) btn.classList.add('active');
+    btn.addEventListener('click', function () { setCollection(i); });
+    switcher.appendChild(btn);
+  });
+
+  function setCollection(i) {
+    var active = collections[i];
+    var img = document.getElementById('collectionImg');
+    img.src = active.image;
+    img.alt = active.name;
+    // restart the imageIn animation
+    img.style.animation = 'none';
+    void img.offsetWidth;
+    img.style.animation = '';
+    document.getElementById('collectionIndex').textContent = active.number || ('0' + (i + 1)) + ' / 03';
+    document.getElementById('collectionType').textContent = active.type;
+    document.getElementById('collectionName').textContent = active.name;
+    document.getElementById('collectionRef').textContent = active.ref;
+    document.getElementById('collectionDesc').textContent = active.description;
+    switcher.querySelectorAll('button').forEach(function (b, j) {
+      b.classList.toggle('active', j === i);
+    });
+  }
+</script>
+</body>
+</html>
